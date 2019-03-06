@@ -10,8 +10,12 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="shortcut icon" href="favicon.ico" type="image/png"/>
         <title>South Park Quote Quiz</title>
+        <!-- Laurel's scripts -->
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </head>
     <body>
+
         <div class="jumbotron" id="page_header">
             <h1>
                 South Park Quote Quiz!
@@ -19,11 +23,11 @@
         </div>
 
         <div class ="container" type="button" id="shuffle_button">
-            Shuffle
+            Next Quote!
         </div>
 
         <div class ="container" id="scroll_container">
-            Scroll thing w/ quotes
+            "Scroll thing w/ quotes"
         </div>
 
 
@@ -41,11 +45,20 @@
                 <div class="col-sm" type="button" id="name_4">
                     name 4
                 </div>
+                <div class="col-sm" type="button" id="name_5">
+                    name 5
+                </div>
+                <div class="col-sm" type="button" id="name_6">
+                    name 6
+                </div>
             </div>
         </div>
+
+
         <div class="container" type= "button" id="answer_button">
             Submit
         </div>
+
         <div class="container" id="graph_container">
             <div class="row" id="graph_row">
                 <div class="col-md" id="graph_1">
