@@ -11,8 +11,12 @@
         <link rel="shortcut icon" href="favicon.ico" type="image/png"/>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <title>South Park Quote Quiz</title>
+        <!-- Laurel's scripts -->
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </head>
     <body>
+
         <div class="jumbotron" id="page_header">
             <h1>
                 South Park Quote Quiz!
@@ -20,13 +24,16 @@
         </div>
 
         <div class ="container" type="button" id="shuffle_button">
-            Shuffle
+            Next Quote!
         </div>
 
         <div class ="container" id="scroll_container">
-            <button type="button" id = "quotebutton">Randomizer</button>
-            Scroll thing w/ quotes
-            <p id="quote"></p>
+<!-- <<<<<<< joel -->
+<!--             "Scroll thing w/ quotes" -->
+<!--             <button type="button" id = "quotebutton">Randomizer</button> -->
+<!--             Scroll thing w/ quotes -->
+<!--             <p id="quote"></p> -->
+<!-- >>>>>>> master --> 
         </div>
 
 
@@ -44,11 +51,20 @@
                 <div class="col-sm" type="button" id="name_4">
                     name 4
                 </div>
+                <div class="col-sm" type="button" id="name_5">
+                    name 5
+                </div>
+                <div class="col-sm" type="button" id="name_6">
+                    name 6
+                </div>
             </div>
         </div>
+
+
         <div class="container" type= "button" id="answer_button">
             Submit
         </div>
+
         <div class="container" id="graph_container">
             <div class="row" id="graph_row">
                 <div class="col-md" id="graph_1">
