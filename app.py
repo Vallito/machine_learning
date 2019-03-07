@@ -21,20 +21,30 @@ quotes = db.quotes
 def index():
     return render_template("index.html")
 
-@app.route("/quotes")
+@app.route("/importquotes")
 def import_quotes():
     print("posts" in db.list_collection_names())     #Check if collection "posts" 
     print(quotes.count() == 0)    #Check if collection named 'posts' is empty
+    # db.quotes.drop()
     if quotes.count() == 0:
 
-        df = pd.read_csv("templates/static/data/quiz_quotes.csv") #csv file which you want to import
+        df = pd.read_csv("static/data/quiz_quotes.csv") #csv file which you want to import
         records_ = df.to_dict(orient = 'records')
         db.quotes.insert_many(records_ )                 #Delete(drop) collection named 'posts' from db
 
     appData = []
     sp_quotes = list(quotes.find())
     for q in sp_quotes:
-        appData.append({'quotes':q})
+        appData.append(q)
+    appData = json.dumps(appData, default=json_util.default)
+    print(appData)
+    return  appData
+@app.route("/quotes")
+def return_quotes():
+    appData = []
+    sp_quotes = list(quotes.find())
+    for q in sp_quotes:
+        appData.append(q)
     appData = json.dumps(appData, default=json_util.default)
     print(appData)
     return  appData
