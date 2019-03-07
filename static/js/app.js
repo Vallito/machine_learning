@@ -1,6 +1,6 @@
 
 
-var newQuote = d3.select("#quotebutton");
+var newQuote = d3.select("#shuffle_button");
 var quoteText = d3.select("#quote");
 
 newQuote.on("click", function() {
