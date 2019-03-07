@@ -15,6 +15,7 @@ client = pymongo.MongoClient(conn)
 # connect to mongo db and collection
 db = client.south_park
 quotes = db.quotes
+characters = db.characters
 
 
 @app.route("/")
@@ -38,6 +39,17 @@ def import_quotes():
     appData = json.dumps(appData, default=json_util.default)
     print(appData)
     return  appData
+
+@app.route("/characters")
+def character_data():
+    
+    charData = []
+    # sp_characters = list(characters.find())
+    # for c in sp_characters:
+    #     charData.append({'Character':c})
+    charData = json.dumps(characters.find_one(), default=json_util.default)
+    print(charData)
+    return  charData
 
 if __name__ == "__main__":
     app.run(debug=True)
