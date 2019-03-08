@@ -68,12 +68,12 @@
 
         <div class="container" id="graph_container">
             <div class="row" id="graph_row">
-                <div class="col-md" id="graph_1">
+                <div class="col-sm-6" id="graph_1">
                     <div class="container" id="bar">
                         bar graph
                     </div>
                 </div>
-                <div class="col-md" id="graph_2">
+                <div class="col-sm-6" id="graph_2">
                     <div class="container" id="pie">
                         pie chart
                     </div>
@@ -86,6 +86,9 @@
             </div>
         </footer>
     </body>
+    <!-- Mike’s scripts -->
+    <script src=“https://cdn.plot.ly/plotly-latest.min.js“></script>
+    <script src=“{{ url_for(‘static’, filename=‘js/appvis.js’) }}“></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <!-- <script src="/static/js/app.js"></script> -->
 </html>
