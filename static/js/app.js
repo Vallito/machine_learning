@@ -3,9 +3,12 @@
 var newQuote = d3.select("#shuffle_button");
 var quoteText = d3.select("#quote");
 var doc; 
+var quote;
+var ml_character;
+var javascript_data = {};
 
 newQuote.on("click", function() {
-    var quote;
+    
     console.log("buttonClick");
     d3.queue()
     .defer(d3.json, "/quotes")
@@ -26,8 +29,25 @@ newQuote.on("click", function() {
             doc = appData[q];
             quote = appData[q].Line;
             console.log(quote);
-            console.log(document);
+            // console.log(document);
             quoteText.text(quote);
+
+                            
+            // Python model results
+            console.log("/ml/"+quote);
+            d3.queue()
+            .defer(d3.json, "/ml/"+quote)
+            .await(callbackFunc);
+
+
+            function callbackFunc(error,response) {
+            // do something with the response
+            
+            ml_character = response.quote;
+            console.log(ml_character);
+
+            }
+
             break;
         };
     };
@@ -74,6 +94,8 @@ b6.on("click",function(){
 });
 
 submit.on("click",function(){
+
+
 console.log(doc);
 console.log(selected);
 //  Update User Counts
@@ -88,14 +110,41 @@ console.log(selected);
     };
         
     };
+// Update computer Counts
+if (doc.Character == ml_character){
+    console.log('Computer match');
+    if(isNaN(doc.Computer) ){
+        console.log('nan');
+        doc.Computer = 1
+    }
+    else {
+    doc.Computer = doc.Computer + 1
+};
+    
+};
 // Update Total Counts
 if(isNaN(doc.Count) ){
-    console.log('nan');
     doc.Count = 1
 }
 else {
 doc.Count = doc.Count + 1
 };
-console.log(doc);
-});
 
+
+console.log(doc);
+// Update mongo
+// $.post( "/postdata", {
+//     // javascript_data: {'document':doc }
+//     javascript_data: [doc]
+// });
+$.ajax({    
+    url :  '/postdata',
+    dataType: 'json',
+    data: JSON.stringify({
+        javascript_data: doc
+       }),
+    type : "POST",
+    contentType: 'application/json;charset=UTF-8'
+
+});
+});
