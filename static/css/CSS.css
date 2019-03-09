@@ -4,19 +4,17 @@
     }
 
 .jumbotron {
-
-    
     background: url("../img/sp_title_alt.jpg") no-repeat right;
-    background-size:  500px 200px;
-    background-color: black;     
+    background-size:  500px 200px;  
 }
-
-
 
 * {
     font-family: southpark;
 }
 
+body{
+background-color: black;
+}
 .col-sm{
     padding-top: 10px;
     padding-right: 10px;
@@ -25,10 +23,9 @@
     margin:50px;
     text-align: center;
     font-size: 83%;
-
 }
 .col-sm:hover {
-    background-color: rgb(0, 0, 0); /* Green */
+    background-color: rgb(0, 0, 0); 
     color: white;
 }
 .col-sm:active {
@@ -70,3 +67,4 @@
     background-color: rgb(0, 0, 0); /* Green */
     color: white;
 }
+

@@ -11,14 +11,12 @@
         <link rel="shortcut icon" href="favicon.ico" type="image/png"/>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <title>South Park Quote Quiz</title>
-        <!-- Laurel's scripts -->
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
     </head>
     <body>
 
         <div class="jumbotron" id="page_header">
+        
             <h1>
                 South Park Quote Quiz!
             </h1>
@@ -63,24 +61,31 @@
 
         <div class="container" id="graph_container">
             <div class="row" id="graph_row">
-                <div class="col-md" id="graph_1">
+                <div class="col-sm-6" id="graph_1">
                     <div class="container" id="bar">
                         bar graph
                     </div>
                 </div>
-                <div class="col-md" id="graph_2">
+                <div class="col-sm-6" id="graph_2">
                     <div class="container" id="pie">
                         pie chart
                     </div>
                 </div>
             </div>
         </div>
-        <footer style="position: fixed;bottom:0" id="footer">
+        <footer id="footer">
             <div class="container" id="footer_container">
                 <p class="text-muted"> &copy; UCF Coding Bootcamp 2019</p>
             </div>
         </footer>
     </body>
+    <!-- Laurel's scripts -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <!-- Mike’s scripts -->
+    <script src="{{ url_for('static', filename='js/appvis.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <!-- <script src="/static/js/app.js"></script> -->
 </html>

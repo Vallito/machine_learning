@@ -16,6 +16,7 @@ client = pymongo.MongoClient(conn)
 # connect to mongo db and collection
 db = client.south_park
 quotes = db.quotes
+characters = db.characters
 
 
 @app.route("/")
@@ -53,13 +54,15 @@ def return_quotes():
 @app.route("/characters")
 def character_data():
     
-    charData = []
-    # sp_characters = list(characters.find())
-    # for c in sp_characters:
-    #     charData.append({'Character':c})
-    charData = json.dumps(characters.find_one(), default=json_util.default)
+    sp_characters = list(characters.find())
+    for c in sp_characters:
+        n = c['Name']
+        charData.append({'Character':c})
+    charData = json.dumps(charData, default=json_util.default)
     print(charData)
     return  charData
+    charData = []
+    
 @app.route("/ml/<quote>")
 def machine_learning(quote):
      
@@ -92,6 +95,6 @@ def get_post_javascript_data():
     return jsonify(content)
         # jsdata = request.form['javascript_data']
         # return json.loads(jsdata)[0]
-
+      
 if __name__ == "__main__":
     app.run(debug=True)
