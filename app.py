@@ -54,10 +54,11 @@ def return_quotes():
 def character_data():
     
     charData = []
-    # sp_characters = list(characters.find())
-    # for c in sp_characters:
-    #     charData.append({'Character':c})
-    charData = json.dumps(characters.find_one(), default=json_util.default)
+    sp_characters = list(characters.find())
+    for c in sp_characters:
+        n = c['Name']
+        charData.append({'Character':c})
+    charData = json.dumps(charData, default=json_util.default)
     print(charData)
     return  charData
 
