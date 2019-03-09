@@ -11,13 +11,11 @@
         <link rel="shortcut icon" href="favicon.ico" type="image/png"/>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <title>South Park Quote Quiz</title>
-        <!-- Laurel's scripts -->
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </head>
     <body>
 
         <div class="jumbotron" id="page_header">
+        
             <h1>
                 South Park Quote Quiz!
             </h1>
@@ -74,15 +72,18 @@
                 </div>
             </div>
         </div>
-        <footer style="position: fixed;bottom:0" id="footer">
+        <footer id="footer">
             <div class="container" id="footer_container">
                 <p class="text-muted"> &copy; UCF Coding Bootcamp 2019</p>
             </div>
         </footer>
     </body>
+    <!-- Laurel's scripts -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <!-- Mike’s scripts -->
-    <script src=“https://cdn.plot.ly/plotly-latest.min.js“></script>
-    <script src=“{{ url_for(‘static’, filename=‘js/appvis.js’) }}“></script>
+    <script src="{{ url_for('static', filename='js/appvis.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <!-- <script src="/static/js/app.js"></script> -->
 </html>
