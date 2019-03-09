@@ -1,10 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask.json import jsonify
 import json
 import pymongo
 from bson import json_util
 from bson.json_util import dumps
 import pandas as pd
+from run_ml import compute, token
 
 app = Flask(__name__)
 
@@ -53,7 +54,6 @@ def return_quotes():
 @app.route("/characters")
 def character_data():
     
-    charData = []
     sp_characters = list(characters.find())
     for c in sp_characters:
         n = c['Name']
@@ -61,6 +61,40 @@ def character_data():
     charData = json.dumps(charData, default=json_util.default)
     print(charData)
     return  charData
+    charData = []
+    
+@app.route("/ml/<quote>")
+def machine_learning(quote):
+     
+    # from joblib import dump, load
+    # import re
+    # import nltk
+    # from nltk.stem.lancaster import LancasterStemmer
+    result = compute(quote)
 
+    # char = {}
+    # char['quote'] = 'Kyle'
+    # char['quote'] = quote
+    # Insert machine learning logic here.
+    char = {'quote':result[0]}
+
+    print(char)
+    return  jsonify(char)
+
+@app.route('/postdata', methods = ['POST'])
+def get_post_javascript_data():
+    print('update mongo')
+
+    content = request.json['javascript_data']
+    print(content)
+    # Update mongo
+    quotes.replace_one({"key": content['key']},
+
+                                            content
+                                          )
+    return jsonify(content)
+        # jsdata = request.form['javascript_data']
+        # return json.loads(jsdata)[0]
+      
 if __name__ == "__main__":
     app.run(debug=True)
