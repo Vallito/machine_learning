@@ -74,11 +74,11 @@ b1.on("click",function(){
   });
 b2.on("click",function(){
     selected = 2;
-    character = 'Randy';
+    character = 'Kyle';
 });
 b3.on("click",function(){
     selected = 3;
-    character = 'Kyle';
+    character = 'Cartman';
 });
 b4.on("click",function(){
     selected = 4;
@@ -90,7 +90,7 @@ b5.on("click",function(){
 });
 b6.on("click",function(){
     selected = 6;
-    character = 'Timmy';
+    character = 'Randy';
 });
 
 submit.on("click",function(){
