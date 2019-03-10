@@ -27,7 +27,7 @@ def index():
 def import_quotes():
     print("posts" in db.list_collection_names())     #Check if collection "posts" 
     print(quotes.count() == 0)    #Check if collection named 'posts' is empty
-    # db.quotes.drop()
+    db.quotes.drop()
     if quotes.count() == 0:
 
         df = pd.read_csv("static/data/quiz_quotes.csv") #csv file which you want to import
@@ -53,7 +53,7 @@ def return_quotes():
 
 @app.route("/characters")
 def character_data():
-    
+    charData = []
     sp_characters = list(characters.find())
     for c in sp_characters:
         n = c['Name']
@@ -61,7 +61,7 @@ def character_data():
     charData = json.dumps(charData, default=json_util.default)
     print(charData)
     return  charData
-    charData = []
+    
     
 @app.route("/ml/<quote>")
 def machine_learning(quote):
