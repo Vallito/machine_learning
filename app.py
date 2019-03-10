@@ -86,6 +86,7 @@ def get_post_javascript_data():
     print('update mongo')
 
     content = request.json['javascript_data']
+    content.pop('_id', None)
     print(content)
     # Update mongo
     quotes.replace_one({"key": content['key']},
