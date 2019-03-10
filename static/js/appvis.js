@@ -6,6 +6,11 @@ answerSubmit = d3.select('#answer_button');
 
 answerSubmit.on("click",buttonClick);
 
+colorCartman = ['#00B8C4','#FFE11D','#FFEEC3','#EE3253'
+        ,'#844D38','#302E3C'];
+colorStan = ['#4D7DBD','#EE324B','#FFEBC0','#DF8A7A'
+        ,'#4E4648'];
+colorKyleLtd = ['#297B78','#48464B']
 
 function buttonClick() {
     var newVar;
@@ -14,11 +19,8 @@ function buttonClick() {
     .defer(d3.json,'/characters')
     .await(response);
     function response (error, charData) {
-        // console.log(charData);
-        // console.log(charData.length);
         var totalCharacters = charData.length;
         for (c in charData){
-            // console.log(charData[c]);
             if(charData[c].Character.Name == 'Stan Marsh') {
                 console.log('Success!');
                 break
@@ -37,44 +39,82 @@ function makeGraph() {
     var xvars = ['Kyle','Stan','Cartman','Randy','Mr. Garrison','Butters'];   
     var yvars = [];
 
-    d3.select('#bar').text('')
-    Plotly.newPlot('bar',[{
-        x: xvars,
-        y:[getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)],
-        type:'bar'
-        }],
-        {
-            title: 'Count of Selections by Character',
-            yaxis: {
-                title: 'Number of Selections'
-            },
-            xaxis: {
-                title: 'Character'
-            }
-        });
+    // Visuals
 
-    d3.select('#pie').text('')
-    Plotly.newPlot('pie',[{
+    d3.select('#viz_1').text('')
+    Plotly.newPlot('viz_1',[{
         values:[getRandomInt(25),getRandomInt(25)],
-        labels:["Human","Machine"],
-        type: 'pie'
-        // name: 'Plot 2',
-        // mode: 'lines'    
+        labels:["Correct","Incorrect"],
+        type: 'pie',
+        marker: {
+            colors: colorCartman
+        }
     }],
         {
-            title: 'Human vs Machine',
-            // yaxis: {
-            //     title: 'Y-Axis'
-            // },
-            // xaxis: {
-            //     title: 'X-Axis'
-            // }
+            title: 'Human % Correct'           
         })
+    d3.select('#viz_2').text('')
+    Plotly.newPlot('viz_2',[{
+        values:[getRandomInt(25),getRandomInt(25)],
+        labels:["Correct","Incorrect"],
+        type: 'pie',
+        marker: {
+            colors: colorStan
+        } 
+    }],
+        {
+            title: 'Machine % Correct'
+        })
+    d3.select('#viz_3').text('')
+    
+    var yValue = [getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)];
+    var y2Value = [getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)
+        ,getRandomInt(5)];
+
+    var trace1 = {
+        x: xvars,
+        y: yValue,
+        name: 'User Count',
+        type: 'bar',
+        text: yValue.map(String),
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+            color: colorKyleLtd[0]
+        }
+      };
+      var trace2 = {
+        x: xvars,
+        y: y2Value,
+        name: 'Machine Count',
+        type: 'bar',
+        text: y2Value.map(String),
+        textposition:'auto',
+        hoverinfo: 'none',
+        marker: {
+            color: colorKyleLtd[1]
+        }
+      };
+    var barData = [trace1,trace2]
+    var barLayout = {barmode: 'stack',title: 'Count of Selections by Character'
+                    ,yaxis:{
+                        title: 'Number of Selections'
+                    },
+                    xaxis:{
+                        title: 'Character',
+                        tickangle: -45
+                    }}
+
+    Plotly.newPlot('viz_3',barData,barLayout);
 
 };
 

@@ -57,20 +57,43 @@
         <div class="container" type= "button" id="answer_button">
             Submit
         </div>
-
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <br>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h1 class="text-center"><u>See Your Stats!</u></h1>
+                </div>
+            </div>
+        </div>
         <div class="container" id="graph_container">
-            <div class="row" id="graph_row">
+            <div class="row" id="graph_row_1">
                 <div class="col-sm-6" id="graph_1">
-                    <div class="container" id="bar">
+                    <div class="container" id="viz_1">
                         bar graph
                     </div>
                 </div>
                 <div class="col-sm-6" id="graph_2">
-                    <div class="container" id="pie">
+                    <div class="container" id="viz_2">
                         pie chart
                     </div>
                 </div>
             </div>
+            <div class="row" id="graph_row_2">
+                    <div class="col-sm-6" id="graph_3">
+                        <div class="container" id="viz_3">
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-6" id="graph_4">
+                        <div class="container" id="viz_4">
+                            
+                        </div>
+                    </div>
+                </div>
         </div>
         <footer id="footer">
             <div class="container" id="footer_container">
@@ -84,6 +107,6 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <!-- Mike’s scripts -->
     <script src="{{ url_for('static', filename='js/appvis.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
     <!-- <script src="/static/js/app.js"></script> -->
 </html>
