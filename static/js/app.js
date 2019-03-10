@@ -12,6 +12,9 @@ var colorCartman = ['#00B8C4','#FFE11D','#FFEEC3','#EE3253'
 var colorStan = ['#4D7DBD','#EE324B','#FFEBC0','#DF8A7A'
         ,'#4E4648'];
 var colorKyleLtd = ['#297B78','#48464B'];
+var tUserCorrect = 0
+var tMachCorrect = 0
+var tTotal = 0
 
 // Button selection logic
 var b1 = d3.select("#name_1");
@@ -105,41 +108,47 @@ b6.on("click",function(){
 
 // Submit Button
 submit.on("click",function(){
-
+tTotal +=1
 
 console.log(doc);
 console.log(selected);
 //  Update User Counts
     if (doc.Character == character){
         console.log('character match');
-        if(isNaN(doc.User) ){
-            console.log('nan');
-            doc.User = 1
-        }
-        else {
-        doc.User = doc.User + 1
-    };
+        // if(isNaN(doc.User) ){
+        //     console.log('nan');
+        //     doc.User = 1
+        // }
+        // else {
+        // doc.User = doc.User + 1
+        doc.User += 1
+        tUserCorrect +=1
+        
+
+
+    // };
         
     };
 // Update computer Counts
 if (doc.Character == ml_character){
     console.log('Computer match');
-    if(isNaN(doc.Computer) ){
-        console.log('nan');
-        doc.Computer = 1
-    }
-    else {
-    doc.Computer = doc.Computer + 1
-};
-    
+//     if(isNaN(doc.Computer) ){
+//         console.log('nan');
+//         doc.Computer = 1
+//     }
+//     else {
+//     doc.Computer = doc.Computer + 1
+// };
+    doc.Computer +=1
+    tMachCorrect +=1
 };
 // Update Total Counts
-if(isNaN(doc.Count) ){
-    doc.Count = 1
-}
-else {
+// if(isNaN(doc.Count) ){
+//     doc.Count = 1
+// }
+// else {
 doc.Count = doc.Count + 1
-};
+// };
 
 
 console.log(doc);
@@ -238,7 +247,7 @@ function init() {
     
         d3.select('#viz_1').text('')
         Plotly.newPlot('viz_1',[{
-            values:[getRandomInt(25),getRandomInt(25)],
+            values:[tUserCorrect,tTotal-tUserCorrect],
             labels:["Correct","Incorrect"],
             type: 'pie',
             marker: {
@@ -250,7 +259,7 @@ function init() {
             })
         d3.select('#viz_2').text('')
         Plotly.newPlot('viz_2',[{
-            values:[getRandomInt(25),getRandomInt(25)],
+            values:[tMachCorrect,tTotal-tMachCorrect],
             labels:["Correct","Incorrect"],
             type: 'pie',
             marker: {
