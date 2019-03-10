@@ -59,7 +59,7 @@ def character_data():
         n = c['Name']
         charData.append({'Character':c})
     charData = json.dumps(charData, default=json_util.default)
-    print(charData)
+    # print(charData)
     return  charData
     
     
