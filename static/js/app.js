@@ -92,6 +92,11 @@ d3.select('#jigsaw').remove()
 
 
 // Character Selections
+$('.button').on('click', function(){
+    console.log("clicked")
+    $('.button').removeClass('selected');
+    $(this).addClass('selected');
+ });
 
 b1.on("click",function(){
     selected = 1;
