@@ -11,10 +11,13 @@ var colorCartman = ['#00B8C4','#FFE11D','#FFEEC3','#EE3253'
         ,'#844D38','#302E3C'];
 var colorStan = ['#4D7DBD','#EE324B','#FFEBC0','#DF8A7A'
         ,'#4E4648'];
-var colorKyleLtd = ['#297B78','#48464B'];
+var colorKyleLtd = ['#00AC51','#55B949','#FDE9C4','#EE6325','#297B78','#48464B'];
 var tUserCorrect = 0
 var tMachCorrect = 0
 var tTotal = 0
+var dbTotal
+var dbMachCorrect
+var dbUserCorrect 
 
 // Button selection logic
 var b1 = d3.select("#name_1");
@@ -41,7 +44,16 @@ newQuote.on("click", function() {
     var rand = Math.floor((Math.random() * totalQuotes) + 1);
     console.log(rand);
     console.log(appData);
-   
+    dbTotal = 0;
+    dbUserCorrect = 0;
+    dbMachCorrect = 0;
+        for (var a in appData){
+            dbTotal += appData[a].Count;
+            dbUserCorrect += appData[a].User;
+            dbMachCorrect += appData[a].Computer;
+            console.log(dbTotal,dbMachCorrect,dbUserCorrect);
+        };
+
         for (var q in appData){
             // console.log(appData[q].key);
         
@@ -109,6 +121,7 @@ b6.on("click",function(){
 // Submit Button
 submit.on("click",function(){
 tTotal +=1
+dbTotal +=1
 
 console.log(doc);
 console.log(selected);
@@ -123,7 +136,7 @@ console.log(selected);
         // doc.User = doc.User + 1
         doc.User += 1
         tUserCorrect +=1
-        
+        dbUserCorrect +=1
 
 
     // };
@@ -141,6 +154,7 @@ if (doc.Character == ml_character){
 // };
     doc.Computer +=1
     tMachCorrect +=1
+    dbMachCorrect +=1
 };
 // Update Total Counts
 // if(isNaN(doc.Count) ){
@@ -242,33 +256,124 @@ function init() {
           }
         var xvars = ['Kyle','Stan','Cartman','Randy','Mr. Garrison','Butters'];   
         var yvars = [];
+
     
         // Visuals
-    
-        d3.select('#viz_1').text('')
-        Plotly.newPlot('viz_1',[{
-            values:[tUserCorrect,tTotal-tUserCorrect],
-            labels:["Correct","Incorrect"],
-            type: 'pie',
-            marker: {
-                colors: colorCartman
+
+        var pieLabels = ['Correct','Incorrect'];
+        var UserValues = [[tUserCorrect,tTotal-tUserCorrect],
+                        [dbUserCorrect,dbTotal-dbUserCorrect]];
+        var userPieData = [
+            {
+                values: UserValues[0],
+                labels: pieLabels,
+                type: 'pie',
+                name: 'Current User Stats',
+                marker: {
+                    colors: colorCartman
+                },
+                domain: {
+                    row:0,
+                    column: 0
+                },
+                legendgroup: 'Current',
+                showlegend: true
+
+            },
+            {
+                values:UserValues[1],
+                labels: pieLabels,
+                type: 'pie',
+                name: 'Overall User Stats',
+                marker: {
+                    colors: colorStan
+                },
+                domain: {
+                    row: 1,
+                    column: 1
+                },
+                legendgroup: 'Overall',
+                showlegend: true
+
             }
-        }],
+        ];
+        var userLayout = {
+            grid: { rows: 2, columns: 2},
+            title: 'User Stats: Current/Overall'
+        };
+        var MachValues = [[tMachCorrect,tTotal-tMachCorrect],
+                        [dbMachCorrect,dbTotal-dbMachCorrect]];
+        var machPieData = [
             {
-                title: 'Human % Correct'           
-            })
-        d3.select('#viz_2').text('')
-        Plotly.newPlot('viz_2',[{
-            values:[tMachCorrect,tTotal-tMachCorrect],
-            labels:["Correct","Incorrect"],
-            type: 'pie',
-            marker: {
-                colors: colorStan
-            } 
-        }],
+                values: MachValues[0],
+                labels: pieLabels,
+                type: 'pie',
+                name: 'Current Machine Stats',
+                marker: {
+                    colors: [colorKyleLtd[0],colorKyleLtd[3]]
+                },
+                domain: {
+                    row:0,
+                    column: 1
+                },
+                legendgroup: 'Current',
+                showlegend: true
+
+            },
             {
-                title: 'Machine % Correct'
-            })
+                values:MachValues[1],
+                labels: pieLabels,
+                type: 'pie',
+                name: 'Overall Machine Stats',
+                marker: {
+                    colors: [colorKyleLtd[1],colorKyleLtd[5]]
+                },
+                domain: {
+                    row: 1,
+                    column: 0
+                },
+                legendgroup: 'Overall',
+                showlegend: true
+
+            }
+        ];
+        var machLayout = {
+            grid: { rows: 2, columns: 2},
+            title: 'Machine Stats: Current/Overall'
+        };
+
+        d3.select('#viz_1').text('');
+        Plotly.newPlot('viz_1',userPieData,userLayout);
+        console.log('DB user Correct:' + dbUserCorrect);
+        console.log('DB total' + dbTotal);
+
+        // d3.select('#viz_1').text('')
+        // Plotly.newPlot('viz_1',[{
+        //     values:[tUserCorrect,tTotal-tUserCorrect],
+        //     labels:["Correct","Incorrect"],
+        //     type: 'pie',
+        //     marker: {
+        //         colors: colorCartman
+        //     }
+        // }],
+        //     {
+        //         title: 'Human % Correct'           
+        //     })
+
+        d3.select('#viz_2').text('');
+        Plotly.newPlot('viz_2',machPieData,machLayout);
+        // Plotly.newPlot('viz_2',[{
+        //     values:[tMachCorrect,tTotal-tMachCorrect],
+        //     labels:["Correct","Incorrect"],
+        //     type: 'pie',
+        //     marker: {
+        //         colors: colorStan
+        //     } 
+        // }],
+        //     {
+        //         title: 'Machine % Correct'
+        //     });
+
         d3.select('#viz_3').text('')
         
         var yValue = [getRandomInt(5)
