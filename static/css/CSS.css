@@ -15,7 +15,7 @@
 body{
 background-color: black;
 }
-.col-sm{
+.col-sm {
     padding-top: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
@@ -24,14 +24,15 @@ background-color: black;
     text-align: center;
     font-size: 83%;
 }
-.col-sm:hover {
-    background-color: rgb(0, 0, 0); 
+.button.selected {
+    background-color:red; /* Green */
     color: white;
 }
-.col-sm:active {
-    background-color:red; /* Green */
-    color: red;
+.button:hover {
+    background-color: black; 
+    color: white;
 }
+
 
 
 #shuffle_button{ 
@@ -61,10 +62,19 @@ background-color: black;
     width: 250px;
     text-align: center;
     line-height: 55px;
+
 }
+
+/* added for button selections */
+/* .active:active {
+  color: red;
+} */
 
 #answer_button:hover {
     background-color: rgb(0, 0, 0); /* Green */
     color: white;
 }
-
+#answer_button:focus {
+    background-color: red; /* Green */
+    color: white;
+}
