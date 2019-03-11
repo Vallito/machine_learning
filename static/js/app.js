@@ -28,6 +28,21 @@ var b5 = d3.select("#name_5");
 var b6 = d3.select("#name_6");
 var submit = d3.select("#answer_button");
 var selected;
+var lRow = d3.select("#label_row");
+var aRow = d3.select("#answer_row");
+var userLabel = d3.select('#userLabel');
+var correctLabel = d3.select('#correctLabel');
+var machineLabel = d3.select('#machineLabel');
+var userAnswer = d3.select('#userAnswer');
+var correctAnswer = d3.select('#correctAnswer');
+var machineAnswer = d3.select('#machineAnswer');
+var stan = [0,0];
+var kyle = [0,0];
+var cartman = [0,0];
+var butters = [0,0];
+var garrison = [0,0];
+var randy = [0,0];
+var unk = [0,0];
 
 // New Quote Button
 newQuote.on("click", function() {
@@ -57,36 +72,39 @@ newQuote.on("click", function() {
         for (var q in appData){
             // console.log(appData[q].key);
         
-        if (appData[q].key== rand){
-            doc = appData[q];
-            quote = appData[q].Line;
-            console.log(quote);
-            // console.log(document);
-            quoteText.text(quote);
+            if (appData[q].key== rand){
+                doc = appData[q];
+                quote = appData[q].Line;
+                console.log(quote);
+                // console.log(document);
+                quoteText.text(quote);
 
-                            
-            // Python model results
-            console.log("/ml/"+quote);
-            d3.queue()
-            .defer(d3.json, "/ml/"+quote)
-            .await(callbackFunc);
+                                
+                // Python model results
+                console.log("/ml/"+quote);
+                d3.queue()
+                .defer(d3.json, "/ml/"+quote)
+                .await(callbackFunc);
 
 
-            function callbackFunc(error,response) {
-            // do something with the response
-            
-            ml_character = response.quote;
-            console.log(ml_character);
+                function callbackFunc(error,response) {
+                // do something with the response
+                
+                ml_character = response.quote;
+                console.log(ml_character);
 
-            }
+                }
 
-            break;
+                break;
+            };
         };
     };
-};
-d3.select('#jigsaw').remove()
-    
-  });
+    d3.select('#jigsaw').remove();
+    d3.select('#jigsaw_text').remove();
+    userAnswer.text('');
+    correctAnswer.text('');
+    machineAnswer.text('');
+});
 
 
 
@@ -125,68 +143,123 @@ b6.on("click",function(){
 
 // Submit Button
 submit.on("click",function(){
-tTotal +=1
-dbTotal +=1
+    tTotal +=1
+    dbTotal +=1
 
-console.log(doc);
-console.log(selected);
-//  Update User Counts
-    if (doc.Character == character){
-        console.log('character match');
-        // if(isNaN(doc.User) ){
-        //     console.log('nan');
-        //     doc.User = 1
-        // }
-        // else {
-        // doc.User = doc.User + 1
-        doc.User += 1
-        tUserCorrect +=1
-        dbUserCorrect +=1
+    console.log(doc);
+    console.log(selected);
+    //  Update User Counts
+        if (doc.Character == character){
+            console.log('character match');
+            // if(isNaN(doc.User) ){
+            //     console.log('nan');
+            //     doc.User = 1
+            // }
+            // else {
+            // doc.User = doc.User + 1
+            doc.User += 1
+            tUserCorrect +=1
+            dbUserCorrect +=1
 
 
+        // };
+            
+        };
+    // Update computer Counts
+    if (doc.Character == ml_character){
+        console.log('Computer match');
+    //     if(isNaN(doc.Computer) ){
+    //         console.log('nan');
+    //         doc.Computer = 1
+    //     }
+    //     else {
+    //     doc.Computer = doc.Computer + 1
     // };
-        
+        doc.Computer +=1
+        tMachCorrect +=1
+        dbMachCorrect +=1
     };
-// Update computer Counts
-if (doc.Character == ml_character){
-    console.log('Computer match');
-//     if(isNaN(doc.Computer) ){
-//         console.log('nan');
-//         doc.Computer = 1
-//     }
-//     else {
-//     doc.Computer = doc.Computer + 1
-// };
-    doc.Computer +=1
-    tMachCorrect +=1
-    dbMachCorrect +=1
-};
-// Update Total Counts
-// if(isNaN(doc.Count) ){
-//     doc.Count = 1
-// }
-// else {
-doc.Count = doc.Count + 1
-// };
+    // Update Total Counts
+    // if(isNaN(doc.Count) ){
+    //     doc.Count = 1
+    // }
+    // else {
+    doc.Count = doc.Count + 1
+    // };
 
 
-console.log(doc);
-// Update mongo
-// $.post( "/postdata", {
-//     // javascript_data: {'document':doc }
-//     javascript_data: [doc]
-// });
-$.ajax({    
-    url :  '/postdata',
-    dataType: 'json',
-    data: JSON.stringify({
-        javascript_data: doc
-       }),
-    type : "POST",
-    contentType: 'application/json;charset=UTF-8'
+    console.log(doc);
+    // Update mongo
+    // $.post( "/postdata", {
+    //     // javascript_data: {'document':doc }
+    //     javascript_data: [doc]
+    // });
+    $.ajax({    
+        url :  '/postdata',
+        dataType: 'json',
+        data: JSON.stringify({
+            javascript_data: doc
+        }),
+        type : "POST",
+        contentType: 'application/json;charset=UTF-8'
 
-});
-makeGraph();
+    });
+    //if statement for appending answers
+    if (character == 'Stan') {
+        stan[0] += 1;
+    } else if (character == 'Kyle') {
+        kyle[0] += 1;
+    } else if (character == 'Cartman') {
+        cartman[0] += 1;
+    } else if (character == 'Butters') {
+        butters[0] += 1;
+    } else if (character == 'Mr. Garrison') {
+        garrison[0] += 1;
+    } else if (character == 'Randy') {
+        randy[0] += 1;
+    } else {
+        unk[0] +=1;
+    };
+
+    if (ml_character == 'Stan') {
+        stan[1] += 1;
+    } else if (ml_character == 'Kyle') {
+        kyle[1] += 1;
+    } else if (ml_character == 'Cartman') {
+        cartman[1] += 1;
+    } else if (ml_character == 'Butters') {
+        butters[1] += 1;
+    } else if (ml_character == 'Mr. Garrison') {
+        garrison[1] += 1;
+    } else if (ml_character == 'Randy') {
+        randy[1] += 1;
+    } else {
+        unk[1] +=1;
+    };
+
+
+    // add rows for labels and answers
+    userLabel.attr('class','col-sm-4 text-center border')
+        .attr('style','color: red; font-size:24px; padding-top:10px')
+        .text('Your Answer');
+    correctLabel.attr('class','col-sm-4 text-center border')
+        .attr('style','color: red; font-size:24px; padding-top: 10px')
+        .text('Correct Answer');
+    machineLabel.attr('class','col-sm-4 text-center border')
+        .attr('style','color: red; font-size:24px; padding-top: 10px')
+        .text('Machine Answer');
+
+    userAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:18px; padding-top:10px')
+        .text(character);
+    correctAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:18px; padding-top: 10px')
+        .text(doc.Character);
+    machineAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:18px; padding-top: 10px')
+        .text(ml_character);
+    
+    makeGraph();
 });
 
 function init() {
@@ -242,16 +315,14 @@ function init() {
             };
             };
         };
-        makeGraph();
-        quoteText.text("Let's Play a Game")
-        msgCon.append('img')
+        // makeGraph();
+        quoteText.text("Let's Play a Game...")
+        d3.select('#jigsaw')
             .attr('src'
             ,'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e557c74b-f5d2-4586-a936-41cffcb04282/d36h0yo-430f4a14-ca63-4493-a9fd-69e38c4c5adf.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2U1NTdjNzRiLWY1ZDItNDU4Ni1hOTM2LTQxY2ZmY2IwNDI4MlwvZDM2aDB5by00MzBmNGExNC1jYTYzLTQ0OTMtYTlmZC02OWUzOGM0YzVhZGYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.H-6N3v27Q7GEo-qK1kra_b067KtS2vwYC-AJ4XREuD0')
-            .attr('width','25%')
-            .attr('id','jigsaw');
-
-        
-        
+            .attr('width','15%');
+            // .attr('id','jigsaw');
+        d3.select('#jigsaw_text').text('Click "Next Quote" above to generate a quote, and select the character below to guess who it is!');
     };
 
     function makeGraph() {
@@ -259,10 +330,8 @@ function init() {
         function getRandomInt(max) {
             return Math.floor(Math.random() * Math.floor(max));
           }
-        var xvars = ['Kyle','Stan','Cartman','Randy','Mr. Garrison','Butters'];   
-        var yvars = [];
-
-    
+        var xvars = ['Stan','Kyle','Cartman','Butters','Mr. Garrison','Randy','N/A'];   
+            
         // Visuals
 
         var pieLabels = ['Correct','Incorrect'];
@@ -381,41 +450,31 @@ function init() {
 
         d3.select('#viz_3').text('')
         
-        var yValue = [getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)];
-        var y2Value = [getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)
-            ,getRandomInt(5)];
+        var userValue = [stan[0],kyle[0],cartman[0],butters[0],garrison[0],randy[0],unk[0]];
+        var machineValue = [stan[1],kyle[1],cartman[1],butters[1],garrison[1],randy[1],unk[1]];
     
         var trace1 = {
             x: xvars,
-            y: yValue,
+            y: userValue,
             name: 'User Count',
             type: 'bar',
-            text: yValue.map(String),
+            text: userValue.map(String),
             textposition: 'auto',
             hoverinfo: 'none',
             marker: {
-                color: colorKyleLtd[0]
+                color: colorKyleLtd[5]
             }
           };
           var trace2 = {
             x: xvars,
-            y: y2Value,
+            y: machineValue,
             name: 'Machine Count',
             type: 'bar',
-            text: y2Value.map(String),
+            text: machineValue.map(String),
             textposition:'auto',
             hoverinfo: 'none',
             marker: {
-                color: colorKyleLtd[1]
+                color: colorCartman[0]
             }
           };
         var barData = [trace1,trace2]
