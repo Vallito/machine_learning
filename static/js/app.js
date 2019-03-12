@@ -18,6 +18,8 @@ var tTotal = 0
 var dbTotal
 var dbMachCorrect
 var dbUserCorrect 
+var responseImg = d3.select('#response_pic');
+var responseText = d3.select('#response_text');
 
 // Button selection logic
 var b1 = d3.select("#name_1");
@@ -104,6 +106,11 @@ newQuote.on("click", function() {
     userAnswer.text('');
     correctAnswer.text('');
     machineAnswer.text('');
+    quoteText.attr('style','font-size:42px')
+    responseImg.attr('style','visibility:hidden')
+        .attr('src','');
+    responseText.text('');
+    newQuote.text('Next Quote!');
 });
 
 
@@ -240,24 +247,55 @@ submit.on("click",function(){
 
     // add rows for labels and answers
     userLabel.attr('class','col-sm-4 text-center border')
-        .attr('style','color: red; font-size:24px; padding-top:10px')
+        .attr('style','color: #48464B; font-size:20px; padding-top:10px')
         .text('Your Answer');
     correctLabel.attr('class','col-sm-4 text-center border')
-        .attr('style','color: red; font-size:24px; padding-top: 10px')
+        .attr('style','color: #48464B; font-size:20px; padding-top: 10px')
         .text('Correct Answer');
     machineLabel.attr('class','col-sm-4 text-center border')
-        .attr('style','color: red; font-size:24px; padding-top: 10px')
+        .attr('style','color: #48464B; font-size:20px; padding-top: 10px')
         .text('Machine Answer');
 
-    userAnswer.attr('class','col-sm-4 text-center')
-        .attr('style','font-size:18px; padding-top:10px')
+
+    //color answer
+    if (character == doc.Character) {
+        userAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:28px; padding-top:10px;color:#297B78')
         .text(character);
-    correctAnswer.attr('class','col-sm-4 text-center')
-        .attr('style','font-size:18px; padding-top: 10px')
-        .text(doc.Character);
-    machineAnswer.attr('class','col-sm-4 text-center')
-        .attr('style','font-size:18px; padding-top: 10px')
+        responseImg.attr('src','http://southparkstudios.mtvnimages.com/shared/characters/celebrities/mr-hankey.jpg?height=165')
+            .attr('width','35%')
+            .attr('height','35%')
+            .attr('style','visibility:visible');
+        responseText.text('Hooray!')
+            .attr('style','font-size:36px;color:green')
+
+    } else {
+        userAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:18px; padding-top:10px;color:#EE3253')
+        .text(character);
+        responseImg.attr('src','https://pbs.twimg.com/media/C0O7wLtXEAECMkn.jpg')
+            .attr('width','25%')
+            .attr('height','25%')
+            .attr('style','visibility:visible');
+        responseText.text('Dang it Kittih!')
+            .attr('style','font-size:36px;color:red');
+    };
+    if (ml_character == doc.Character) {
+        machineAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:28px; padding-top:10px;color:#297B78')
         .text(ml_character);
+    } else {
+        machineAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:18px; padding-top:10px;color:#EE3253')
+        .text(ml_character);
+    };
+    
+    correctAnswer.attr('class','col-sm-4 text-center')
+        .attr('style','font-size:28px; padding-top: 10px;color:#297B78')
+        .text(doc.Character);
+
+    //#EE3253
+    d3.select('#stat_text').text('See your stats below!')
     
     makeGraph();
 });
@@ -316,13 +354,15 @@ function init() {
             };
         };
         // makeGraph();
-        quoteText.text("Let's Play a Game...")
+        quoteText.text("Let's Play a Game...");
         d3.select('#jigsaw')
             .attr('src'
             ,'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e557c74b-f5d2-4586-a936-41cffcb04282/d36h0yo-430f4a14-ca63-4493-a9fd-69e38c4c5adf.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2U1NTdjNzRiLWY1ZDItNDU4Ni1hOTM2LTQxY2ZmY2IwNDI4MlwvZDM2aDB5by00MzBmNGExNC1jYTYzLTQ0OTMtYTlmZC02OWUzOGM0YzVhZGYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.H-6N3v27Q7GEo-qK1kra_b067KtS2vwYC-AJ4XREuD0')
-            .attr('width','15%');
+            .attr('width','25%');
             // .attr('id','jigsaw');
-        d3.select('#jigsaw_text').text('Click "Next Quote" above to generate a quote, and select the character below to guess who it is!');
+        d3.select('#jigsaw_text')
+            .text("Click 'Get Started' above to generate a quote. Select the character you think it is, then click 'Submit' to see if you're correct! Oh.. You will also be playing against a machine!")
+            .attr('style','font-size:50%');
     };
 
     function makeGraph() {
@@ -330,8 +370,9 @@ function init() {
         function getRandomInt(max) {
             return Math.floor(Math.random() * Math.floor(max));
           }
-        var xvars = ['Stan','Kyle','Cartman','Butters','Mr. Garrison','Randy','N/A'];   
-            
+        var xvars = ['Stan','Kyle','Cartman','Butters','Mr. Garrison','Randy'];   
+        d3.select('#graph_container').attr('style','visbility:visible');
+        d3.select('#footer_line').attr('style','visibility:visible');
         // Visuals
 
         var pieLabels = ['Correct','Incorrect'];
@@ -450,8 +491,8 @@ function init() {
 
         d3.select('#viz_3').text('')
         
-        var userValue = [stan[0],kyle[0],cartman[0],butters[0],garrison[0],randy[0],unk[0]];
-        var machineValue = [stan[1],kyle[1],cartman[1],butters[1],garrison[1],randy[1],unk[1]];
+        var userValue = [stan[0],kyle[0],cartman[0],butters[0],garrison[0],randy[0]];
+        var machineValue = [stan[1],kyle[1],cartman[1],butters[1],garrison[1],randy[1]];
     
         var trace1 = {
             x: xvars,
@@ -488,7 +529,8 @@ function init() {
                         }}
     
         Plotly.newPlot('viz_3',barData,barLayout);
-    
+        // d3.select('#graph_row_1').classed('row border',true);
+        // d3.select('#graph_row_1').classed('row justify-content-center border',true);
     };
     
 

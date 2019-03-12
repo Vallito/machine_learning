@@ -5,14 +5,14 @@
 
 .jumbotron {
     background: url("../img/sp_title_alt.jpg") no-repeat right;
-    background-size:  500px 200px;  
+    /* background-size:  500px 200px;   */
 }
 
 * {
     font-family: southpark;
 }
 
-body{
+.body{
 background-color: black;
 }
 .col-sm {
@@ -78,3 +78,7 @@ background-color: black;
     background-color: red; /* Green */
     color: white;
 }
+/* #footer {
+    background-image: url("../img/bootcamp_sign_footer.jpg");
+    background-size: 60%;
+} */
